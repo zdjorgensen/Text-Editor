@@ -18,12 +18,48 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        title: 'Just Another Text Editor',
+      }),
+      new InjectManifest({
+        swSrc: './src/src-sw.js',
+        swDest: 'service-worker.js'
+      }),
+      new WebpackPwaManifest({
+        name: 'J.A.T.E',
+        description: 'Just Another Text Editor',
+        background_color: 'black',
+        theme_color: 'grey',
+        start_url: './',
+        publicPath: './',
+        icons: [
+          {
+            src: path.resolve('assets/images/logo.png'),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assets', 'icons'),
+          }
+        ]
+      })
     ],
 
     module: {
       rules: [
-        
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          rest: /\.m?js%/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+            },
+          },
+        },
       ],
     },
   };
