@@ -6,7 +6,7 @@
 
   [GitHub Application](https://github.com/zdjorgensen/Text-Editor)
 
-  [Herokou Link]()
+  [Herokou Link](https://text-editor-challenge.herokuapp.com/)
 
   ## Table of Contents
 
