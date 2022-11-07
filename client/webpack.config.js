@@ -11,7 +11,8 @@ module.exports = () => {
     mode: 'development',
     entry: {
       main: './src/js/index.js',
-      install: './src/js/install.js'
+      install: './src/js/install.js',
+      editor: './src/js/editor.js'
     },
     output: {
       filename: '[name].bundle.js',
@@ -23,26 +24,27 @@ module.exports = () => {
         title: 'Just Another Text Editor',
       }),
       new InjectManifest({
-        swSrc: './src/src-sw.js',
-        swDest: 'service-worker.js'
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js'
       }),
       new WebpackPwaManifest({
-        name: 'J.A.T.E',
+        name: 'Just Another Text Editor',
+        short_name: 'J.A.T.E',
         description: 'Just Another Text Editor',
-        background_color: 'black',
-        theme_color: 'grey',
+        background_color: '#7eb4e2',
+        theme_color: '#7eb4e2',
         start_url: './',
         publicPath: './',
         icons: [
           {
-            src: path.resolve('assets/images/logo.png'),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
-          }
-        ]
-      })
+          },
+        ],
+      }),
     ],
-
+    
     module: {
       rules: [
         {
@@ -50,7 +52,11 @@ module.exports = () => {
           use: ['style-loader', 'css-loader'],
         },
         {
-          rest: /\.m?js%/,
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.m?js%/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
